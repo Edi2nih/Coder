@@ -9,11 +9,21 @@ RUN apt-get update && \
     apt-get install -y curl sudo && \
     rm -rf /var/lib/apt/lists/*
 
+# Membuat user non-root
+RUN useradd -m coderuser && \
+    echo "coderuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Ganti ke user non-root
+USER coderuser
+
 # Install Coder for Teams menggunakan skrip resmi
 RUN curl -L https://coder.com/install.sh | sh
 
-# Expose the Coder port (misal: 3000)
+# Expose port yang diperlukan (misal: 3000)
 EXPOSE 8080
 
-# Set entrypoint untuk menjalankan Coder for Teams
+# Set working directory
+WORKDIR /home/coderuser
+
+# Menjalankan Coder for Teams sebagai user non-root
 CMD ["coder", "server"]
