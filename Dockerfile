@@ -1,8 +1,15 @@
 FROM ubuntu:20.04
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    curl git sudo nodejs npm
+# Set environment untuk non-interactive install
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies termasuk tzdata untuk timezone
+RUN apt-get update && \
+    apt-get install -y curl git sudo nodejs npm tzdata
+
+# Set timezone otomatis ke Asia (nomor 6 biasanya untuk Asia/Jakarta)
+RUN ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
+    dpkg-reconfigure --frontend noninteractive tzdata
 
 # Clone Cloud9 SDK
 RUN git clone https://github.com/c9/core.git /cloud9 && \
@@ -12,7 +19,7 @@ RUN git clone https://github.com/c9/core.git /cloud9 && \
 # Set working directory
 WORKDIR /workspace
 
-# Expose port sesuai kebutuhan
+# Expose port untuk akses Cloud9
 EXPOSE 8080
 
 # Jalankan Cloud9 pada port 8080
