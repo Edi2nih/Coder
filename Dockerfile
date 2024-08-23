@@ -1,10 +1,10 @@
-FROM theiaide/theia-full:latest
+FROM eclipse/che-server:latest
 
-# Set working directory
-WORKDIR /home/project
-
-# Expose port sesuai kebutuhan
+# Expose port yang dibutuhkan oleh Eclipse Che
 EXPOSE 8080
 
-# Jalankan Theia pada port 8080
-CMD ["yarn", "start", "/home/project", "--hostname", "0.0.0.0", "--port", "8080"]
+# Set working directory
+WORKDIR /workspace
+
+# Jalankan Eclipse Che server
+CMD ["che", "start"]
