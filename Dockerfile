@@ -1,11 +1,11 @@
-# Gunakan image dasar resmi dari Coder
-FROM codercom/code-server:latest
+# Gunakan image OpenVSCode dari Gitpod
+FROM gitpod/openvscode-server:latest
 
-# Set working directory
-WORKDIR /home/coder
+# Set working directory ke home/workspace
+WORKDIR /home/workspace
 
-# Expose port untuk akses ke server
+# Expose port 8080 sesuai dengan host
 EXPOSE 8080
 
-# Menjalankan code-server dan menampilkan password
-CMD bash -c "code-server --bind-addr 0.0.0.0:8080 & sleep 2 && cat /home/coder/.config/code-server/config.yaml && wait"
+# Set entrypoint untuk menjalankan OpenVSCode pada port 8080
+ENTRYPOINT ["openvscode-server", "--port", "8080", "--host", "0.0.0.0", "/home/workspace"]
