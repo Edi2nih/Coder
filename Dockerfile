@@ -1,10 +1,10 @@
-FROM eclipse/che-server:latest
-
-# Expose port yang dibutuhkan oleh Eclipse Che
-EXPOSE 8080
+FROM gitpod/workspace-full:latest
 
 # Set working directory
 WORKDIR /workspace
 
-# Jalankan Eclipse Che server
-CMD ["che", "start"]
+# Expose port untuk akses Gitpod
+EXPOSE 8080
+
+# Jalankan Gitpod
+CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
